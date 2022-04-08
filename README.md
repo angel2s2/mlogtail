@@ -86,9 +86,21 @@ discarded       0
 ## Установка
 
 ```none
-go get -u github.com/hpcloud/tail go get golang.org/x/sys/unix &&
-  go build && strip mlogtail &&
-  cp mlogtail /usr/local/sbin &&
-  chown root:bin /usr/local/sbin/mlogtail &&
-  chmod 0711 /usr/local/sbin/mlogtail
+go get -u github.com/hpcloud/tail go get golang.org/x/sys/unix
+go build && strip mlogtail
+cp mlogtail /usr/local/sbin
+chown root:bin /usr/local/sbin/mlogtail
+chmod 0711 /usr/local/sbin/mlogtail
+```
+
+## Установка сервиса
+```bash
+cp mlogtail /usr/local/sbin
+chown root:bin /usr/local/sbin/mlogtail
+chmod 0711 /usr/local/sbin/mlogtail
+chown root:zabbix /var/log/mail
+cp mlogtail.service /etc/systemd/system/
+systemctl enable mlogtail.service
+systemctl start mlogtail.service
+systemctl status mlogtail.service
 ```
