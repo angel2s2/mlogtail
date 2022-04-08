@@ -1,0 +1,117 @@
+zabbix_export:
+  version: '6.0'
+  date: '2022-04-08T11:27:22Z'
+  groups:
+    -
+      uuid: a571c0d144b14fd4a87a9d9b2aa9fcd6
+      name: Templates/Applications
+  templates:
+    -
+      uuid: ca16a46af9c44acda22afb5be38c19c7
+      template: 'Postfix by Zabbix agent'
+      name: 'Postfix by Zabbix agent'
+      groups:
+        -
+          name: Templates/Applications
+      items:
+        -
+          uuid: 02a2da19d2ab44fabf82d014c8dab448
+          name: 'Postfix Queue'
+          key: postfix.queue
+          delay: 10s
+          tags:
+            -
+              tag: component
+              value: software
+          triggers:
+            -
+              uuid: 13031626d7124524a19598d134822ab7
+              expression: 'last(/Postfix by Zabbix agent/postfix.queue)>=50'
+              name: 'Postfix Queue > 50'
+              priority: AVERAGE
+              tags:
+                -
+                  tag: scope
+                  value: notice
+            -
+              uuid: 0e5c1468f1a344ffa664fc4423d5265e
+              expression: 'last(/Postfix by Zabbix agent/postfix.queue)>=100'
+              name: 'Postfix Queue > 100'
+              priority: HIGH
+              tags:
+                -
+                  tag: scope
+                  value: notice
+        -
+          uuid: e7fe8e9c1c1e41b2a23da4b45c3de5af
+          name: 'Postfix msg bounced'
+          key: 'postfix.stats[bounced]'
+          triggers:
+            -
+              uuid: 4529712affa04155b1337bbdda8c8def
+              expression: 'last(/Postfix by Zabbix agent/postfix.stats[bounced])>=30'
+              name: 'Postfix msg bounced > 30'
+              priority: AVERAGE
+            -
+              uuid: c5227f9a90414bbaaff3b32c1e2fdc34
+              expression: 'last(/Postfix by Zabbix agent/postfix.stats[bounced])>=60'
+              name: 'Postfix msg bounced > 60'
+              priority: AVERAGE
+        -
+          uuid: c9cf70dddc834f8cad298f6e85cbd553
+          name: 'Postfix bytes delivered'
+          key: 'postfix.stats[bytes-delivered]'
+          units: B
+        -
+          uuid: b31738d7fc0f4c589506339b223bee75
+          name: 'Postfix bytes received'
+          key: 'postfix.stats[bytes-received]'
+          units: B
+        -
+          uuid: 0b2cbb587c49476fa5be53dcb7125618
+          name: 'Postfix msg deferred'
+          key: 'postfix.stats[deferred]'
+        -
+          uuid: 56c6ba9fbb224400ba4d94ad734dedc6
+          name: 'Postfix msg delivered'
+          key: 'postfix.stats[delivered]'
+        -
+          uuid: de2dcd91f03d43a28cc3764a1e9474b4
+          name: 'Postfix msg discarded'
+          key: 'postfix.stats[discarded]'
+        -
+          uuid: e3511d0650e84a9ab5c4427e6a08f04d
+          name: 'Postfix msg forwarded'
+          key: 'postfix.stats[forwarded]'
+        -
+          uuid: 6ae194cf7e23403982b27363072edf9d
+          name: 'Postfix msg hold'
+          key: 'postfix.stats[held]'
+        -
+          uuid: 69fe94bd9485435488f42fd24e8fbde0
+          name: 'Postfix msg received'
+          key: 'postfix.stats[received]'
+        -
+          uuid: cda78a19ad9645a492c60226b0387dd0
+          name: 'Postfix msg rejected'
+          key: 'postfix.stats[rejected]'
+      tags:
+        -
+          tag: class
+          value: application
+        -
+          tag: target
+          value: postfix
+  graphs:
+    -
+      uuid: c021944ffa1047219c715382bc3a24fa
+      name: 'Postfix Queue Chart'
+      width: '800'
+      graph_items:
+        -
+          drawtype: GRADIENT_LINE
+          color: E53935
+          calc_fnc: ALL
+          item:
+            host: 'Postfix by Zabbix agent'
+            key: postfix.queue
