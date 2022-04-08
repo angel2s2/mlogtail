@@ -104,3 +104,14 @@ systemctl enable mlogtail.service
 systemctl start mlogtail.service
 systemctl status mlogtail.service
 ```
+
+## Настройка zabbix
+В файл `/etc/zabbix/zabbix_agent2.conf` добавить строку
+```
+UserParameter=postfix.stats[*],/usr/local/sbin/mlogtail $1
+```
+и если нужна очередь
+```
+UserParameter=postfix.queue, mailq | tail -1 | grep -q 'Mail queue is empty' && echo 0 || mailq | tail -1 | awk '{print $5}'
+```
+Импортировать в zabbix шаблон из файла `zabbix/postfix_by_Zabbix_agent2_for_zabbix6.yaml`.
