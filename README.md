@@ -1,13 +1,12 @@
-# About mlogtail
-The main purpose of the program is monitoring of mail service (MTA) by reading new data appearing in log file and counting the values of some parameters characterizing operation of a mail server. Currently only Postfix logs are supported.
+# О программе
 
-The program has two main usage modes. In the first case (`tail` command), the program reads new data from the log file in background and maintains several counters.
+Основное назначение программы - мониториг почтового сервиса (MTA) путем чтения новых данных, появляющихся в лог-файле, и подсчета значений некоторых параметров, характеризующих работу почтового сервера. В настоящее время поддерживаются только логи Postfix.
 
-`mlogtail` monitors state of the log file it woking with, so there is no needs to do anything at time of normal logs rotation.
+У программы два основных режима использования. В первом случае (команда `tail`) программа в фоновом режиме читает новые данные из лог-файла и ведет несколько счетчиков. `mlogtail` самостоятельно ослеживает состояние лог-файла, с которым он работает, поэтому при ротации логов не нужно ничего предпринимать.
 
-In the second mode, `mlogtail` is used to call to a log reading process and get (and/or reset) current values of the counters.
+Во втором - `mlogtail` используется для обращения в процессу, читающему лог, и получения (и/или обнуления) текущих значений счетчиков.
 
-## Usage
+## Как пользоваться
 
 ```none
 # mlogtail -h
@@ -19,7 +18,7 @@ Usage:
 
 Options:
   -f string
-        Mail log file path, if the path is "-" then read from STDIN (default "/var/log/mail.log")
+        Mail log file path, if path is "-" then read from STDIN (default "/var/log/mail.log")
   -h    Show this help
   -l string
         Log reader process is listening for commands on a socket file, or IPv4:PORT,
@@ -33,17 +32,17 @@ Options:
   -v    Show version information and exit
 ```
 
-### Log tailing mode
+### Запуск в режиме чтения лога
 
-Unfortunately, in Go, the process has no good ways to become a daemon, so we launch the "reader" just in background:
+К сожалению, в Go у процесса нет хороших способов стать демоном, поэтому запускаем "читателя" просто в фоновом режиме:
 
 ```none
 # mlogtail tail &
 ```
 
-or by `systemctl`. If a log reading process have to listen to a socket then it is required to specify a netwoirking type. For example: `unix:/tmp/some.sock`.
+или при помощи `systemctl`. Если процесс, читающий лог, должен слушать сокет, то указание типа `unix` обязательно, например `unix:/tmp/some.sock`.
 
-### Counters' values
+### Получение значений счетчиков
 
 ```none
 # mlogtail stats
@@ -59,9 +58,9 @@ held            0
 discarded       0
 ```
 
-It should be noted that if the "reader" is started with the `-l` option, setting the socket or IP address and port on which the process is listening for requests, then the same command line parameters should be used for getting counter values.
+Необходимо обратить внимание на то, что если "читатель" запущен с опцией `-l`, с указанием сокета или IP-адреса и порта, на котором процесс ждет запросов, то и с командой получения значений счетчиков должен использоваться тот же парамер командной строки.
 
-Probably a more frequent case of addressing the counters is to get the current value of one of them, for example:
+Вероятно, более частый случай обращения к счетчикам - это получение текущего значения одного из них, например:
 
 ```none
 # mlogtail bytes-received
@@ -72,23 +71,22 @@ Probably a more frequent case of addressing the counters is to get the current v
 4
 ```
 
-### Log file statistics
+### Статистика по лог-файлу
 
-In addition to working in real time, mlogtail can be used with a mail log file:
-
+Кроме работы в "реальном времени" `mlogtail` может использоваться и со статичным лог-файлом:
 ```none
 # mlogtail -f /var/log/mail.log
 ```
-or STDIN:
+или STDIN:
 ```none
 # grep '^Apr  1' /var/log/mail.log | mlogtail -f -
 ```
-for example, to get counters for some defined date.
+например, для получения данных на определенное число.
 
-## Installation
+## Установка
 
 ```none
-go get -u github.com/hpcloud/tail golang.org/x/sys/unix &&
+go get -u github.com/hpcloud/tail go get golang.org/x/sys/unix &&
   go build && strip mlogtail &&
   cp mlogtail /usr/local/sbin &&
   chown root:bin /usr/local/sbin/mlogtail &&
