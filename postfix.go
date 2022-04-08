@@ -21,17 +21,33 @@ const (
 	// "Jul 22 19:06:42 hostname postfix(instance_name)?/"
 	// where "instance_name" usually is not specified in
 	// single instance mode
-	postfixLogLine  = `^[JAMDFONS][aeucop][nrbcglptvy] [1-3 ]\d [0-2]\d:[0-5]\d:[0-5]\d \S+ postfix[^/ ]*/`
-	receivedLine    = `^(?:(?:s(?:mtps/|ubmission)/)?smtp[ds]|pickup)\[\d+\]: ([\dA-F]+): (?:client|uid)=`
-	queueActiveLine = `^qmgr\[\d+\]: ([\dA-F]+): .* size=(\d{2,12})[, ].+queue active`
+	
+	// ORIGINAL
+	//postfixLogLine  = `^[JAMDFONS][aeucop][nrbcglptvy] [1-3 ]\d [0-2]\d:[0-5]\d:[0-5]\d \S+ postfix[^/ ]*/`
+	//receivedLine    = `^(?:(?:s(?:mtps/|ubmission)/)?smtp[ds]|pickup)\[\d+\]: ([\dA-F]+): (?:client|uid)=`
+	//queueActiveLine = `^qmgr\[\d+\]: ([\dA-F]+): .* size=(\d{2,12})[, ].+queue active`
+	//queueRemoveLine = `^(?:qmgr|postsuper)\[\d+\]: ([\dA-F]+): removed`
+	//deliveredLine   = `\[\d+\]: ([\dA-F]+): .+ status=sent`
+	//forwardedLine   = `forwarded as `
+	//deferredLine    = `\[\d+\]: (?:[\dA-F]+): .+ status=deferred`
+	//bouncedLine     = `\[\d+\]: (?:[\dA-F]+): .+ status=bounced`
+	//rejectLine      = `^(?:(?:s(?:mtps/|ubmission)/)?smtp[ds]|cleanup)\[\d+\]: .*?\breject: `
+	//holdLine        = `: NOQUEUE: hold: `
+	//discardLine     = `: NOQUEUE: discard: `
+	
+	// FOR ME POSTFIX LOGS on OpenSUSE Leap 15
+	// 2022-04-08T09:40:54.352847+02:00 mail postfix/(instance_name)?/
+	postfixLogLine  = `^[0-9T\.+:-]+ mail postfix\/`
+	receivedLine    = `^(?:(?:s(?:mtp[ds]?|ubmission)\/)?smtp[ds]|pickup)\[\d+\]: ([\dA-F]+): (?:client|uid)=`
+	queueActiveLine = `^qmgr\[\d+\]: ([\dA-F]+): .* size=(\d{2,12}), .+ \(queue active\)`
 	queueRemoveLine = `^(?:qmgr|postsuper)\[\d+\]: ([\dA-F]+): removed`
-	deliveredLine   = `\[\d+\]: ([\dA-F]+): .+ status=sent`
+	deliveredLine   = `[a-zA-Z]+\[\d+\]: ([\dA-F]+): .+, status=sent `
 	forwardedLine   = `forwarded as `
-	deferredLine    = `\[\d+\]: (?:[\dA-F]+): .+ status=deferred`
-	bouncedLine     = `\[\d+\]: (?:[\dA-F]+): .+ status=bounced`
-	rejectLine      = `^(?:(?:s(?:mtps/|ubmission)/)?smtp[ds]|cleanup)\[\d+\]: .*?\breject: `
-	holdLine        = `: NOQUEUE: hold: `
-	discardLine     = `: NOQUEUE: discard: `
+	deferredLine    = `[a-zA-Z]+\[\d+\]: ([\dA-F]+): .+, status=deferred `
+	bouncedLine     = `[a-zA-Z]+\[\d+\]: ([\dA-F]+): .+, status=bounced `
+	rejectLine      = `^(?:s(?:mtp[ds]?|ubmission|cleanup)[\/a-z]*)\[\d+\]: .+reject: `
+	holdLine        = ` hold: `
+	discardLine     = ` discard: `
 )
 
 var (
