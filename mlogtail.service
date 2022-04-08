@@ -9,7 +9,7 @@ After=network.target
 User=root
 Group=root
 WorkingDirectory=/tmp
-ExecStart=/usr/local/sbin/mlogtail -f /var/log/maillog -o root:zabbix -p 660 tail
+ExecStart=/usr/local/sbin/mlogtail -f /var/log/mail -o root:zabbix -p 640 tail
 
 [Install]
 WantedBy=multi-user.target
