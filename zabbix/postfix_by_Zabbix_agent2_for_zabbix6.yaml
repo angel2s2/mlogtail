@@ -1,6 +1,6 @@
 zabbix_export:
   version: '6.0'
-  date: '2022-04-08T11:27:22Z'
+  date: '2022-04-11T14:48:15Z'
   groups:
     -
       uuid: a571c0d144b14fd4a87a9d9b2aa9fcd6
@@ -43,58 +43,268 @@ zabbix_export:
                   tag: scope
                   value: notice
         -
-          uuid: e7fe8e9c1c1e41b2a23da4b45c3de5af
-          name: 'Postfix msg bounced'
-          key: 'postfix.stats[bounced]'
-          triggers:
+          uuid: e6f7ae780ede4ae7bb7d172aacb65122
+          name: 'Postfix stats msg bounced'
+          type: DEPENDENT
+          key: postfix.stats.bounced
+          delay: '0'
+          preprocessing:
             -
-              uuid: 4529712affa04155b1337bbdda8c8def
-              expression: 'last(/Postfix by Zabbix agent/postfix.stats[bounced])>=30'
-              name: 'Postfix msg bounced > 30'
-              priority: AVERAGE
+              type: REGEX
+              parameters:
+                - 'bounced[\t\ ]+([0-9]+)'
+                - \1
+          master_item:
+            key: 'postfix.stats[stats]'
+          tags:
             -
-              uuid: c5227f9a90414bbaaff3b32c1e2fdc34
-              expression: 'last(/Postfix by Zabbix agent/postfix.stats[bounced])>=60'
-              name: 'Postfix msg bounced > 60'
-              priority: AVERAGE
+              tag: component
+              value: application
+            -
+              tag: component
+              value: postfix
+            -
+              tag: type
+              value: stats
         -
-          uuid: c9cf70dddc834f8cad298f6e85cbd553
-          name: 'Postfix bytes delivered'
-          key: 'postfix.stats[bytes-delivered]'
-          units: B
+          uuid: d8708251fd9a43dcaed8b35664252f6c
+          name: 'Postfix stats bytes delivered'
+          type: DEPENDENT
+          key: postfix.stats.bytes-delivered
+          delay: '0'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - 'bytes-delivered[\t\ ]+([0-9]+)'
+                - \1
+          master_item:
+            key: 'postfix.stats[stats]'
+          tags:
+            -
+              tag: component
+              value: application
+            -
+              tag: component
+              value: postfix
+            -
+              tag: type
+              value: stats
         -
-          uuid: b31738d7fc0f4c589506339b223bee75
-          name: 'Postfix bytes received'
-          key: 'postfix.stats[bytes-received]'
-          units: B
+          uuid: 6496b896b31c42cab5a137a0cb6b5500
+          name: 'Postfix stats bytes received'
+          type: DEPENDENT
+          key: postfix.stats.bytes-received
+          delay: '0'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - 'bytes-received[\t\ ]+([0-9]+)'
+                - \1
+          master_item:
+            key: 'postfix.stats[stats]'
+          tags:
+            -
+              tag: component
+              value: application
+            -
+              tag: component
+              value: postfix
+            -
+              tag: type
+              value: stats
         -
-          uuid: 0b2cbb587c49476fa5be53dcb7125618
-          name: 'Postfix msg deferred'
-          key: 'postfix.stats[deferred]'
+          uuid: a6c15f78e42440a7aaac7dfaafcf252d
+          name: 'Postfix stats msg deferred'
+          type: DEPENDENT
+          key: postfix.stats.deferred
+          delay: '0'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - 'deferred[\t\ ]+([0-9]+)'
+                - \1
+          master_item:
+            key: 'postfix.stats[stats]'
+          tags:
+            -
+              tag: component
+              value: application
+            -
+              tag: component
+              value: postfix
+            -
+              tag: type
+              value: stats
         -
-          uuid: 56c6ba9fbb224400ba4d94ad734dedc6
-          name: 'Postfix msg delivered'
-          key: 'postfix.stats[delivered]'
+          uuid: 2078352b93e847e8a1d7f2208e282aed
+          name: 'Postfix stats msg delivered'
+          type: DEPENDENT
+          key: postfix.stats.delivered
+          delay: '0'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - '[\t\ ]+delivered[\t\ ]+([0-9]+)'
+                - \1
+          master_item:
+            key: 'postfix.stats[stats]'
+          tags:
+            -
+              tag: component
+              value: application
+            -
+              tag: component
+              value: postfix
+            -
+              tag: type
+              value: stats
         -
-          uuid: de2dcd91f03d43a28cc3764a1e9474b4
-          name: 'Postfix msg discarded'
-          key: 'postfix.stats[discarded]'
+          uuid: 136947c68d3a4b5c8ae451ace7628388
+          name: 'Postfix stats msg discarded'
+          type: DEPENDENT
+          key: postfix.stats.discarded
+          delay: '0'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - 'discarded[\t\ ]+([0-9]+)'
+                - \1
+          master_item:
+            key: 'postfix.stats[stats]'
+          tags:
+            -
+              tag: component
+              value: application
+            -
+              tag: component
+              value: postfix
+            -
+              tag: type
+              value: stats
         -
-          uuid: e3511d0650e84a9ab5c4427e6a08f04d
-          name: 'Postfix msg forwarded'
-          key: 'postfix.stats[forwarded]'
+          uuid: fba77f5298a745519f1a722af94d6d1b
+          name: 'Postfix stats msg forwarded'
+          type: DEPENDENT
+          key: postfix.stats.forwarded
+          delay: '0'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - 'forwarded[\t\ ]+([0-9]+)'
+                - \1
+          master_item:
+            key: 'postfix.stats[stats]'
+          tags:
+            -
+              tag: component
+              value: application
+            -
+              tag: component
+              value: postfix
+            -
+              tag: type
+              value: stats
         -
-          uuid: 6ae194cf7e23403982b27363072edf9d
-          name: 'Postfix msg hold'
-          key: 'postfix.stats[held]'
+          uuid: 3a44d8a852e04f4990b5804d261fe490
+          name: 'Postfix stats msg hold'
+          type: DEPENDENT
+          key: postfix.stats.held
+          delay: '0'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - 'held[\t\ ]+([0-9]+)'
+                - \1
+          master_item:
+            key: 'postfix.stats[stats]'
+          tags:
+            -
+              tag: component
+              value: application
+            -
+              tag: component
+              value: postfix
+            -
+              tag: type
+              value: stats
         -
-          uuid: 69fe94bd9485435488f42fd24e8fbde0
-          name: 'Postfix msg received'
-          key: 'postfix.stats[received]'
+          uuid: 1ad789dd47814487b3016fc1cc1b2e31
+          name: 'Postfix stats msg received'
+          type: DEPENDENT
+          key: postfix.stats.received
+          delay: '0'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - '[\t\ ]+received[\t\ ]+([0-9]+)'
+                - \1
+          master_item:
+            key: 'postfix.stats[stats]'
+          tags:
+            -
+              tag: component
+              value: application
+            -
+              tag: component
+              value: postfix
+            -
+              tag: type
+              value: stats
         -
-          uuid: cda78a19ad9645a492c60226b0387dd0
-          name: 'Postfix msg rejected'
-          key: 'postfix.stats[rejected]'
+          uuid: 6cdcb4b63e0f4e2187330a3baedca0d9
+          name: 'Postfix stats msg rejected'
+          type: DEPENDENT
+          key: postfix.stats.rejected
+          delay: '0'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - 'rejected[\t\ ]+([0-9]+)'
+                - \1
+          master_item:
+            key: 'postfix.stats[stats]'
+          tags:
+            -
+              tag: component
+              value: application
+            -
+              tag: component
+              value: postfix
+            -
+              tag: type
+              value: stats
+        -
+          uuid: 8ba5bcaa26184a51b954b9a776c0c7b3
+          name: 'Postfix stats'
+          key: 'postfix.stats[stats]'
+          history: 1h
+          trends: '0'
+          value_type: TEXT
+          preprocessing:
+            -
+              type: STR_REPLACE
+              parameters:
+                - \n
+                - ' '
+          tags:
+            -
+              tag: component
+              value: application
+            -
+              tag: component
+              value: postfix
+            -
+              tag: type
+              value: stats
       tags:
         -
           tag: class
